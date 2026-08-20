@@ -190,9 +190,18 @@
     var confPieces = [];
 
     function makePlanes() {
-      var base = rand(-0.85, 0.85);
-      planes = [{ tilt: rand(0.16, 0.5), roll: base + rand(-0.12, 0.12) }];
-      planeG = Math.round(rand(3, 5));
+      /* 多轨道面交错：2~3 个不同倾角 / 滚转的平面，彩带轮流落在各面上，
+       * 甩出的弧线在多个角度方向上交错，而非单一平面里的一组平行弧 */
+      planes = [];
+      var n = Math.random() < 0.45 ? 2 : 3;
+      var roll0 = rand(-0.9, 0.9);
+      for (var pi = 0; pi < n; pi++) {
+        planes.push({
+          tilt: rand(0.16, 0.72),
+          roll: roll0 + pi * (Math.PI / n) + rand(-0.15, 0.15)
+        });
+      }
+      planeG = Math.round(rand(4, 6));
       baseHue = rand(0, 360);
       spawnIdx = 0;
     }
@@ -235,9 +244,9 @@
       });
     }
 
-    /** 自旋甩带：沿本次自旋的随机轨道平面错峰甩出 */
+    /** 自旋甩带：沿本次自旋的多个轨道平面轮流错峰甩出 */
     function spawnTrail(lam0, dir) {
-      var pl = planes[0];
+      var pl = planes[spawnIdx % planes.length];
       var tierStep = 38 / Math.max(planeG - 1, 1);
       var rw = planeG <= 3 ? rand(8, 10.5) : planeG === 4 ? rand(6.6, 8.6) : rand(5.6, 7.4);
       createTrail({
@@ -360,7 +369,7 @@
       stopA.setAttribute('stop-color', shade(color, 0.22));
       stopB.setAttribute('stop-color', color);
       stopC.setAttribute('stop-color', shade(color, -0.12));
-      if (curSketch > 0.5) head.setAttribute('stroke', shade(color, -0.6));
+      if (curSketch > 0.5) head.style.stroke = 'var(--sketch-ink, ' + shade(color, -0.6) + ')';
     }
 
     /* ---- 眼睛：轮廓环形变 + 球面投影 ---- */
@@ -410,9 +419,10 @@
         ' translate(' + r2(-base[0]) + ' ' + r2(-base[1]) + ')');
 
       var fill = sketch > 0.5 ? 'none' : pose.color;
-      var stroke = sketch > 0.5 ? pose.color : 'none';
+      /* 线稿眼描边同样走主题墨色：暗色页面用浅墨，避免深色瞳色几乎不可见 */
+      var stroke = sketch > 0.5 ? 'var(--sketch-ink, ' + pose.color + ')' : '';
       if (fill !== eye.lastFill) { eye.node.setAttribute('fill', fill); eye.lastFill = fill; }
-      if (stroke !== eye.lastStroke) { eye.node.setAttribute('stroke', stroke); eye.lastStroke = stroke; }
+      if (stroke !== eye.lastStroke) { eye.node.style.stroke = stroke; eye.lastStroke = stroke; }
     }
 
     /* ---- 每帧 ---- */
@@ -431,13 +441,14 @@
       if (sketch !== curSketch) {
         curSketch = sketch;
         if (sketch > 0.5) {
-          /* 线稿模式：轮廓描边取体色加深，浅色页面上依然清晰 */
+          /* 线稿模式：描边优先取页面主题墨色 --sketch-ink（暗色页浅墨、亮色页深墨），
+           * 无主题变量时回退体色加深 */
           head.setAttribute('fill', 'none');
-          head.setAttribute('stroke', shade(b.color, -0.6));
+          head.style.stroke = 'var(--sketch-ink, ' + shade(b.color, -0.6) + ')';
           head.setAttribute('stroke-opacity', '0.85');
         } else {
           head.setAttribute('fill', 'url(#' + id + 'g)');
-          head.setAttribute('stroke', 'none');
+          head.style.stroke = '';
         }
       }
 

@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Emotion Ball 表情馆 · 32 种状态表情陈列(SVG 实时驱动 / AI emotionId 对接 / 双语双主题)">
-  <title>Emotion Ball 表情馆</title>
-  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+  <meta name="description" content="Emotion Gallery 表情总馆 · 云宝 × 亮亮 × 球球 同台切换 × 32 种状态表情(SVG 实时驱动 / AI emotionId 对接 / 双语双主题)">
+  <title>Emotion Gallery 表情总馆</title>
+  <link rel="icon" type="image/png" href="mood-mates/assets/img/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="site/style.css">
 </head>
 <body class="mode-wall">
 
-  <!-- 悬浮胶囊导航:品牌 LOGO 小球 / 语言 / 主题 -->
+  <!-- 悬浮胶囊导航:品牌 LOGO 角色 / 语言 / 主题 -->
   <header class="topbar">
     <div class="brand">
       <span id="brandBall" class="brand-ball" aria-hidden="true"></span>
-      <span class="brand-name" data-i18n="brandName">表情馆</span>
+      <span class="brand-name" data-i18n="brandName">Mood Mates</span>
     </div>
     <div class="top-actions">
       <button type="button" id="langToggle" class="icon-btn lang-btn">EN</button>
@@ -30,33 +30,57 @@
 
   <main class="page">
 
-    <!-- 开屏:大字标题 + 底边半遮罩线稿 bot -->
+    <!-- 开屏:大字标题 + 底边半遮罩线稿角色 -->
     <section class="hero" id="hero">
       <div class="hero-backdrop" aria-hidden="true"></div>
       <div class="hero-copy">
-        <p class="hero-eyebrow" data-i18n="heroEyebrow">EMOTION GALLERY</p>
-        <h1 class="hero-title" data-i18n="heroTitle">一颗会表达情绪的小球</h1>
-        <p class="hero-sub" data-i18n="heroSub">32 种状态表情 · SVG 实时驱动 · 一个 emotionId 即可接入 AI</p>
-        <button type="button" id="heroCta" class="hero-cta"><span data-i18n="heroCta">进入展馆</span><span class="cta-arrow" aria-hidden="true">↓</span></button>
+        <h1 class="hero-title" data-i18n="heroTitle">三个会表达情绪的伙伴,同台开演</h1>
+        <p class="hero-sub" data-i18n="heroSub">球球 × 云宝 × 亮亮 · 32 种状态表情 · SVG 实时驱动</p>
+        <button type="button" id="heroCta" class="hero-cta"><span data-i18n="heroCta">进入总馆</span><span class="cta-arrow" aria-hidden="true">↓</span></button>
       </div>
-      <p class="hero-hint" data-i18n="heroHint">移动鼠标它会注视你 · 点击它甩一圈彩带</p>
       <div class="hero-bot-clip" aria-hidden="true">
         <div id="heroBot" class="hero-bot"></div>
       </div>
     </section>
 
-    <!-- 展馆主区:陈列墙 / 画册双模式共用一套 DOM,CSS 按 body 类重排 -->
+    <!-- 角色馆主区:角色选段 + 陈列墙 / 画册双模式 -->
     <section class="gallery" id="gallery">
+      <!-- 角色选段:置于筛选 tab 上方,点击切换整馆 -->
+      <div id="castRow" class="cast-row" aria-label="Characters"></div>
+
       <div class="gallery-head">
         <nav class="mode-switch" aria-label="View mode">
           <button type="button" id="modeWall" class="mode-btn active" data-i18n="navWall">陈列墙</button>
           <button type="button" id="modeAlbum" class="mode-btn" data-i18n="navAlbum">画册</button>
         </nav>
-        <nav id="tabs" class="tabs"></nav>
-        <p id="galleryHint" class="gallery-hint" data-i18n="galleryHint">点击缩略图切换 · 悬停预览动画 · ← / → 键翻页</p>
-        <button type="button" id="settingsToggle" class="icon-btn settings-btn" aria-label="Settings">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34h.09a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87v.09a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1z"/></svg>
-        </button>
+        <!-- 参数与 tab 同层:分组 / 形状 / 间隔下拉(带标题) + 线稿 / 自动播放开关 -->
+        <div class="head-controls">
+          <span class="head-field">
+            <span class="hf-label" data-i18n="lblGroup">分组</span>
+            <select id="groupSelect" class="select" aria-label="Emotion group"></select>
+          </span>
+          <span class="head-field">
+            <span class="hf-label" data-i18n="lblVariant">形状</span>
+            <select id="variantSelect" class="select" aria-label="Body shape"></select>
+          </span>
+          <span class="head-field">
+            <span class="hf-label" data-i18n="lblInterval">间隔</span>
+            <select id="tourInterval" class="select" aria-label="Autoplay interval">
+              <option value="1500">1.5s</option>
+              <option value="2500" selected>2.5s</option>
+              <option value="4000">4s</option>
+            </select>
+          </span>
+          <label class="head-switch">
+            <span class="switch"><input type="checkbox" id="sketchToggle"><span class="slider"></span></span>
+            <span class="hs-label" data-i18n="lblSketch">线稿</span>
+          </label>
+          <label class="head-switch">
+            <span class="switch"><input type="checkbox" id="tourToggle"><span class="slider"></span></span>
+            <span class="hs-label" data-i18n="lblTour">自动播放</span>
+          </label>
+        </div>
+        <p id="galleryHint" class="gallery-hint" data-i18n="galleryHint">点击缩略图切换表情 · ← / → 翻页</p>
       </div>
 
       <div class="thumb-zone" id="thumbZone">
@@ -80,9 +104,6 @@
             <span id="pager" class="pager-ind">-- / --</span>
           </div>
           <p id="emoDesc" class="emo-desc"></p>
-          <div class="baby-row">
-            <div id="babyList" class="baby-list"></div>
-          </div>
         </div>
 
         <button type="button" id="navNext" class="pager-btn" aria-label="Next">
@@ -93,84 +114,33 @@
 
   </main>
 
-  <!-- 设置抽屉 -->
-  <div id="drawerMask" class="drawer-mask" hidden></div>
-  <aside id="drawer" class="drawer" aria-hidden="true">
-    <div class="drawer-head">
-      <h2 data-i18n="drawerTitle">设置</h2>
-      <button type="button" id="drawerClose" class="icon-btn" aria-label="Close">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
-      </button>
-    </div>
-
-    <section class="drawer-sec">
-      <h3 data-i18n="secAppearance">外观</h3>
-      <div class="field">
-        <label for="shapeSelect" data-i18n="lblShape">身体形状</label>
-        <select id="shapeSelect" class="select">
-          <option value="blob" selected data-i18n="shapeBlob">圆胖</option>
-          <option value="wedge" data-i18n="shapeWedge">三角</option>
-          <option value="gem" data-i18n="shapeGem">菱形</option>
-        </select>
-      </div>
-      <div class="field">
-        <label for="sketchToggle" data-i18n="lblSketch">线稿模式</label>
-        <label class="switch">
-          <input type="checkbox" id="sketchToggle">
-          <span class="slider"></span>
-        </label>
-      </div>
-    </section>
-
-    <section class="drawer-sec">
-      <h3 data-i18n="secDemo">演示</h3>
-      <div class="field">
-        <label for="tourToggle" data-i18n="lblTour">自动巡演</label>
-        <label class="switch">
-          <input type="checkbox" id="tourToggle">
-          <span class="slider"></span>
-        </label>
-      </div>
-      <div class="field">
-        <label for="tourInterval" data-i18n="lblInterval">巡演间隔</label>
-        <select id="tourInterval" class="select">
-          <option value="1500">1.5s</option>
-          <option value="2500" selected>2.5s</option>
-          <option value="4000">4s</option>
-        </select>
-      </div>
-    </section>
-
-    <section class="drawer-sec">
-      <h3 data-i18n="secAI">AI 对接模拟</h3>
-      <input id="aiInput" class="ai-input" type="text" spellcheck="false"
-             value='{"emotionId":"30","tips":"正在思考用户问题"}'>
-      <div class="btn-row">
-        <button type="button" id="aiSend" class="btn primary" data-i18n="btnSend">下发</button>
-        <button type="button" id="aiSampleErr" class="btn ghost" data-i18n="btnSampleErr">示例:出错</button>
-        <button type="button" id="aiSampleBad" class="btn ghost" data-i18n="btnSampleBad">示例:未知 ID</button>
-      </div>
-    </section>
-
-    <section class="drawer-sec">
-      <h3 data-i18n="secConfig">配置</h3>
-      <div class="btn-row">
-        <button type="button" id="btnExport" class="btn" data-i18n="btnExport">导出配置</button>
-        <button type="button" id="btnImport" class="btn" data-i18n="btnImport">导入配置</button>
-      </div>
-      <input type="file" id="importFile" accept=".json,application/json" hidden>
-    </section>
-  </aside>
+  <!-- 页脚:授权声明 + 子站入口 -->
+  <footer class="site-foot">
+    <p data-i18n="footNote">云宝与亮亮为原创角色,双许可(个人学习免费 / 商业授权);球球仅供学习研究,禁止任何商业用途。</p>
+    <p class="foot-links">
+      <a href="mood-mates/index.html" data-i18n="footLinkMates">Mood Mates 子站</a>
+      <span aria-hidden="true">·</span>
+      <a href="emotion-ball/index.html" data-i18n="footLinkBall">Emotion Ball 子站</a>
+    </p>
+  </footer>
 
   <!-- 浮动状态提示 -->
   <div id="toast" class="toast" role="status"></div>
 
-  <!-- 加载顺序:几何数据 → 表情数据 → 文案字典 → 渲染层 → 驱动层 → 交互层 -->
-  <script src="js/rings.js"></script>
-  <script src="js/emotions.js"></script>
-  <script src="js/i18n.js"></script>
-  <script src="js/ball.js"></script>
-  <script src="js/engine.js"></script>
-  <script src="js/app.js"></script>
+  <!-- 加载顺序:两套引擎(MoodMates + EmotionBall)→ 文案 → 交互层 -->
+  <script src="mood-mates/src/core/geometry.js"></script>
+  <script src="mood-mates/src/core/render.js"></script>
+  <script src="mood-mates/src/core/features.js"></script>
+  <script src="mood-mates/src/core/fx.js"></script>
+  <script src="mood-mates/src/data/emotions.js"></script>
+  <script src="mood-mates/src/core/engine.js"></script>
+  <script src="mood-mates/src/characters/nimbo.js"></script>
+  <script src="mood-mates/src/characters/twinkle.js"></script>
+  <script src="emotion-ball/js/rings.js"></script>
+  <script src="emotion-ball/js/emotions.js"></script>
+  <script src="emotion-ball/js/ball.js"></script>
+  <script src="emotion-ball/js/engine.js"></script>
+  <script src="site/i18n.js"></script>
+  <script src="site/app.js"></script>
 </body>
 </html>

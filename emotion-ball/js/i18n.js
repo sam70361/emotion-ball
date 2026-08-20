@@ -43,8 +43,8 @@ window.EB_I18N = (function () {
       shapeGem: '菱形',
       lblSketch: '线稿模式',
       secDemo: '演示',
-      lblTour: '自动巡演',
-      lblInterval: '巡演间隔',
+      lblTour: '自动播放',
+      lblInterval: '播放间隔',
       secAI: 'AI 对接模拟',
       aiPlaceholder: '{"emotionId":"30","tips":"正在思考"}',
       btnSend: '下发',
@@ -54,8 +54,8 @@ window.EB_I18N = (function () {
       btnExport: '导出配置',
       btnImport: '导入配置',
 
-      toastTourOn: '自动巡演已开启:「{name}」共 {n} 个表情',
-      toastTourOff: '自动巡演已关闭',
+      toastTourOn: '自动播放已开启:「{name}」共 {n} 个表情',
+      toastTourOff: '自动播放已关闭',
       toastSketchOn: '已切换为线稿模式(仅轮廓描边)',
       toastSketchOff: '已切回实体填充',
       toastShape: '已切换身体形状:{name}',
@@ -64,7 +64,9 @@ window.EB_I18N = (function () {
       toastImportOk: '导入成功:{n} 个表情配置',
       toastImportFail: '导入完成 {n} 个,失败:{err}',
       toastThemeDark: '已切换到暗黑模式',
-      toastThemeLight: '已切换到明亮模式'
+      toastThemeLight: '已切换到明亮模式',
+
+      legalNote: '本站球形角色仅供个人技术学习与研究,禁止任何商业用途。'
     },
 
     en: {
@@ -102,8 +104,8 @@ window.EB_I18N = (function () {
       shapeGem: 'Gem',
       lblSketch: 'Sketch mode',
       secDemo: 'Showcase',
-      lblTour: 'Auto tour',
-      lblInterval: 'Tour interval',
+      lblTour: 'Autoplay',
+      lblInterval: 'Interval',
       secAI: 'AI simulation',
       aiPlaceholder: '{"emotionId":"30","tips":"thinking"}',
       btnSend: 'Send',
@@ -113,8 +115,8 @@ window.EB_I18N = (function () {
       btnExport: 'Export',
       btnImport: 'Import',
 
-      toastTourOn: 'Auto tour started: {n} emotions in "{name}"',
-      toastTourOff: 'Auto tour stopped',
+      toastTourOn: 'Autoplay on: {n} emotions in "{name}"',
+      toastTourOff: 'Autoplay off',
       toastSketchOn: 'Sketch mode on (outline only)',
       toastSketchOff: 'Back to solid fill',
       toastShape: 'Body shape switched to {name}',
@@ -123,7 +125,9 @@ window.EB_I18N = (function () {
       toastImportOk: 'Imported {n} emotion configs',
       toastImportFail: 'Imported {n}, failed: {err}',
       toastThemeDark: 'Dark mode on',
-      toastThemeLight: 'Light mode on'
+      toastThemeLight: 'Light mode on',
+
+      legalNote: 'The ball characters on this site are for personal technical study and research only. Any commercial use is prohibited.'
     }
   };
 

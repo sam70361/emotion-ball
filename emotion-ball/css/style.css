@@ -31,6 +31,8 @@ html[data-theme="dark"] {
   --card-2: #27272a;
   --line: rgba(255, 255, 255, 0.08);
   --line-strong: rgba(255, 255, 255, 0.2);
+  /* 线稿模式描边墨色:暗色页用浅墨,引擎内 var(--sketch-ink, 回退色) 消费 */
+  --sketch-ink: rgba(226, 232, 248, 0.82);
   --text: #ffffff;
   --muted: #a1a1a1;
   --ink: #f5f5f5;
@@ -64,6 +66,8 @@ html[data-theme="light"] {
   --card-2: #f5f5f7;
   --line: rgba(9, 9, 11, 0.08);
   --line-strong: rgba(9, 9, 11, 0.18);
+  /* 线稿模式描边墨色:亮色页用深墨 */
+  --sketch-ink: rgba(40, 46, 66, 0.75);
   --text: #18181b;
   --muted: #6b6b74;
   --ink: #18181b;
@@ -358,18 +362,48 @@ html[data-theme="dark"] .hero-backdrop { mix-blend-mode: screen; }
    clip-path 仅裁切底边,彩带在上方与两侧完整可见 */
 .hero-bot-clip {
   position: absolute;
-  left: 50%;
+  left: 0;
+  right: 0;
   bottom: 0;
-  transform: translateX(-50%);
-  width: min(720px, 86vw);
-  height: min(44vh, 380px, 46vw);
+  /* 可视高度定基准,角色尺寸按 2.2 倍反推:眼睛恰好落在分割线上沿,
+     任何视口下都只露"眉眼以上",越大屏角色越大 */
+  --hero-clip-h: min(52vh, 500px, 56vw);
+  height: var(--hero-clip-h);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   clip-path: inset(-9999px -9999px 0 -9999px);
   z-index: 1;
 }
 .hero-bot {
-  width: min(720px, 86vw);
-  height: min(720px, 86vw);
+  width: calc(var(--hero-clip-h) * 2.2);
+  height: calc(var(--hero-clip-h) * 2.2);
+  flex: none;
   cursor: pointer;
+}
+
+/* Hero 与内容区交接:紧贴线稿角色底边的横向分割线,两端淡出 */
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--line-strong) 22%, var(--line-strong) 78%, transparent);
+  z-index: 2;
+  pointer-events: none;
+}
+/* 线稿角色底部叠加向下渐变,笔画淡入分割线而非被硬切 */
+.hero-bot-clip::after {
+  content: "";
+  position: absolute;
+  left: -2px;
+  right: -2px;
+  bottom: 0;
+  height: 72px;
+  background: linear-gradient(180deg, transparent, var(--bg));
+  pointer-events: none;
 }
 
 /* ================= 展馆主区 ================= */
@@ -985,6 +1019,22 @@ body.mode-album .gallery { --stage-size: min(480px, 46vh); }
 .toast.show { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
 .toast.ok { color: var(--ok); }
 .toast.danger { color: var(--danger); }
+
+/* ================= 学习声明页脚 ================= */
+
+.legal-note {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 28px var(--content-pad, 24px) 36px;
+  text-align: center;
+}
+.legal-note p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--muted, #888);
+  opacity: 0.8;
+}
 
 /* ================= 响应式 ================= */
 

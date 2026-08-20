@@ -5,7 +5,7 @@
 **为 AI 助手打造的表情引擎 —— 32 种状态表情 · 3 种身体形态 · 纯 SVG + 原生 JavaScript · 零依赖**
 
 [![在线预览](https://img.shields.io/badge/demo-emotion--balls.vercel.app-8A63F4?logo=vercel&logoColor=white)](https://emotion-balls.vercel.app/)
-[![许可](https://img.shields.io/badge/license-dual--license-blue)](LICENSE)
+[![许可](https://img.shields.io/badge/license-learning--only-orange)](LICENSE)
 [![零依赖](https://img.shields.io/badge/dependencies-zero-brightgreen)](#)
 [![技术栈](https://img.shields.io/badge/made%20with-vanilla%20JS%20%2B%20SVG-F7DF1E?logo=javascript&logoColor=black)](#)
 
@@ -17,23 +17,33 @@
 
 ---
 
+> **授权声明**:仓库内 [emotion-ball/](emotion-ball/) 目录的球形角色(blob / wedge / gem)仅供个人技术学习与研究,**禁止任何商业用途**,详见 [NOTICE.md](NOTICE.md) 与 [LICENSE](LICENSE)。
+>
+> [mood-mates/](mood-mates/) 目录为同源引擎的**原创角色子项目**(云宝 Nimbo / 亮亮 Twinkle),独立原创设计,采用**双许可**(个人学习免费 + 可获取商业授权),不受上述限制约束。
+
+本仓库由「一座总馆 + 两个子项目」组成:
+
+- **总馆(根目录 `index.html`)**:云宝 × 亮亮 × 球球 三个角色**同台切换展示**——同一面 32 表情陈列墙,点击顶部角色卡即可整馆换角,由两套引擎(MoodMates + EmotionBall)共同驱动;
+- **[mood-mates/](mood-mates/)**:原创角色项目(云宝 / 亮亮),多角色架构、双许可、可商用,自带独立展示站与集成文档;
+- **[emotion-ball/](emotion-ball/)**:球形角色学习项目,32 种状态表情、3 种身体形态,自带独立展示站。
+
 Emotion Ball 是一套面向 AI 助手的表情引擎:32 种状态表情全部由纯 SVG 与原生 JavaScript 实时驱动,零框架、零图片资源。AI 侧只需输出一个 `emotionId`,即可切换到对应表情,可直接用作聊天机器人、桌面宠物、悬浮助手的情绪表达层。
 
 它也不只是"一颗球":内置圆胖(blob)、三角(wedge)、菱形(gem)三种身体形态,支持主题色多实例与线稿模式;整套表情体系围绕纯数据配置设计——眼环池、动画原语、关键帧序列自由组合,基于现有设计即可自主扩展新表情与新玩法。
 
-仓库同时内置一个完整的「表情展示馆」站点:开屏线稿 Hero、陈列墙与画册双浏览模式、中英双语界面、明暗双主题。
+仓库同时内置完整的「表情展示馆」站点:开屏线稿 Hero、陈列墙与画册双浏览模式、中英双语界面、明暗双主题。
 
 ## 预览
 
 | 开屏 Hero(暗黑) | 明亮主题 · English |
 | :---: | :---: |
-| ![开屏 Hero](assets/screenshots/eb-hero-dark.png) | ![明亮主题](assets/screenshots/eb-hero-light-en.png) |
+| ![开屏 Hero](emotion-ball/assets/screenshots/eb-hero-dark.png) | ![明亮主题](emotion-ball/assets/screenshots/eb-hero-light-en.png) |
 
 | 陈列墙 | 大图弹窗 |
 | :---: | :---: |
-| ![陈列墙](assets/screenshots/eb-wall-dark.png) | ![大图弹窗](assets/screenshots/eb-stage-modal.png) |
+| ![陈列墙](emotion-ball/assets/screenshots/eb-wall-dark.png) | ![大图弹窗](emotion-ball/assets/screenshots/eb-stage-modal.png) |
 
-![画册模式 · 思考中环带](assets/screenshots/eb-album-dark.png)
+![画册模式 · 思考中环带](emotion-ball/assets/screenshots/eb-album-dark.png)
 
 ## 特性
 
@@ -47,14 +57,16 @@ Emotion Ball 是一套面向 AI 助手的表情引擎:32 种状态表情全部�
 - **配置驱动、可自主扩展**:每个表情都是「眼环池 + 动画原语 + 关键帧序列」的纯数据组合,支持运行时注册自定义表情、导入导出全部配置,详见[自定义与扩展](#自定义与扩展)
 - **AI 对接协议健壮**:`handleAIMessage` 接受对象或 JSON 字符串,未知 ID、解析失败、缺字段均自动回退待机并触发 `error` 事件,永不白屏
 - **零依赖**:HTML + SVG + 原生 JavaScript,无构建步骤,可直接迁移到 Electron 悬浮窗
-- **展示馆站点**:陈列墙(网格 + 点击弹窗大图)与画册(横向长廊 + 大舞台翻页)双模式,设置抽屉、自动巡演、中英双语、明暗主题,全部偏好经 localStorage 持久化
+- **展示馆站点**:陈列墙(网格 + 点击弹窗大图)与画册(横向长廊 + 大舞台翻页)双模式,顶部工具行集中提供分组 / 形状 / 间隔下拉与线稿、自动播放开关,中英双语、明暗主题,全部偏好经 localStorage 持久化
 
 ## 快速开始
 
 ```bash
 # 任意静态服务器均可,例如:
 python -m http.server 8765
-# 打开 http://localhost:8765/
+# 总馆(三角色同台):  http://localhost:8765/
+# Mood Mates 子站:    http://localhost:8765/mood-mates/
+# Emotion Ball 子站:  http://localhost:8765/emotion-ball/
 ```
 
 或直接双击 `index.html`(建议通过本地服务器访问,以正常加载 Google Fonts)。
@@ -63,13 +75,13 @@ python -m http.server 8765
 
 ### 最小接入
 
-按顺序引入四个脚本(无构建、无依赖)即可创建实例;`js/i18n.js` 与 `js/app.js` 属于展示站,宿主接入不需要:
+按顺序引入四个脚本(无构建、无依赖)即可创建实例;`i18n.js` 与 `app.js` 属于展示站,宿主接入不需要:
 
 ```html
-<script src="js/rings.js"></script>
-<script src="js/emotions.js"></script>
-<script src="js/ball.js"></script>
-<script src="js/engine.js"></script>
+<script src="emotion-ball/js/rings.js"></script>
+<script src="emotion-ball/js/emotions.js"></script>
+<script src="emotion-ball/js/ball.js"></script>
+<script src="emotion-ball/js/engine.js"></script>
 
 <div id="bot" style="width:200px;height:200px"></div>
 <script>
@@ -184,7 +196,7 @@ ball.destroy();                     // 销毁实例
 // 运行时注册新表情(50+ 为自定义编号段,带完整校验)
 EmotionBall.config.register({ id: '50', name: '自定义', group: 'custom', ... });
 
-// 全量导出 / 导入配置 JSON(展示馆站点的设置抽屉内也提供同款按钮)
+// 全量导出 / 导入配置 JSON(Emotion Ball 子站的设置抽屉内也提供同款按钮)
 EmotionBall.config.exportConfig();
 EmotionBall.config.importConfig(json);
 ```
@@ -199,32 +211,30 @@ EmotionBall.config.importConfig(json);
 ## 项目结构
 
 ```
-emotion-ball/
-├── index.html          # 站点入口:Hero + 展馆 + 设置抽屉
-├── css/style.css       # 双主题变量、双模式布局
-├── js/
-│   ├── rings.js        # 几何数据:25 组眼环 + 3 种身体轮廓
-│   ├── emotions.js     # 32 种表情配置(纯数据,含中英文案)
-│   ├── i18n.js         # 界面文案字典(zh / en)
-│   ├── ball.js         # 渲染层:SVG 绘制、球面投影、彩带、撒花
-│   ├── engine.js       # 驱动层:状态机、弹簧动画、表情池、对外 SDK
-│   └── app.js          # 交互层:展示馆站点外壳
-├── assets/
-│   ├── img/            # 站点图标(favicon)
-│   └── screenshots/    # README 预览截图
+(仓库根)
+├── index.html          # 总馆入口:云宝 × 亮亮 × 球球 同台切换
+├── site/               # 总馆外壳:样式 / 文案 / 双引擎适配交互层
+├── mood-mates/         # 原创角色子项目:云宝 / 亮亮(双许可,自带展示站与文档)
+│   ├── index.html      #   Mood Mates 独立展示站
+│   ├── src/            #   引擎:几何 / 渲染 / 五官 / 特效 / 驱动 / 角色包
+│   ├── LICENSE         #   社区许可(个人学习免费)
+│   ├── LICENSE-COMMERCIAL.md  # 商业许可
+│   └── docs/           #   角色设计规范 + 原创证据链
+├── emotion-ball/       # 球形角色学习项目(仅供学习,禁止商用)
+│   ├── index.html      #   Emotion Ball 独立展示站
+│   ├── css/ js/        #   双主题样式 + 引擎(rings / emotions / ball / engine)
+│   ├── assets/         #   站点图标与 README 截图
+│   └── docs/           #   发布文案
 └── .cursor/skills/     # AI 协作 Skills:表情设计规范 + 集成实践
 ```
 
 ## 许可
 
-本项目采用**双许可(Dual License)**模式:
+本仓库包含两套授权不同的内容,请注意区分:
 
-| | 社区许可(默认) | 商业许可 |
-| --- | --- | --- |
-| 对应文件 | [LICENSE](LICENSE) | [LICENSE-COMMERCIAL.md](LICENSE-COMMERCIAL.md) |
-| 费用 | 免费 | 小额一次性买断 |
-| 适用场景 | 个人学习、研究、技术交流,非商业分享(注明出处) | 集成到商业产品或服务、闭源二次开发、付费交付等一切商业用途 |
+- **球形角色(blob / wedge / gem,[emotion-ball/](emotion-ball/) 目录)**:仅供**个人学习、研究与技术交流**使用,禁止任何商业用途,详见 [LICENSE](LICENSE) 与 [NOTICE.md](NOTICE.md)。**球形角色不提供商业授权。**
+- **原创角色 云宝 / 亮亮([mood-mates/](mood-mates/) 目录)**:独立原创设计,**双许可**——个人学习、研究免费使用([社区许可](mood-mates/LICENSE));商业产品、SaaS、客户交付等商业场景可获取授权([商业许可](mood-mates/LICENSE-COMMERCIAL.md))。原创证据链见 [mood-mates/docs/DESIGN-PROVENANCE.md](mood-mates/docs/DESIGN-PROVENANCE.md)。
 
-> 商业授权定价十分亲民,小额一次性即可永久合规 —— 远低于未经授权商用所面临的法律与商誉风险,完全没有必要冒险。适用场景与购买流程详见 [docs/LICENSING.md](docs/LICENSING.md)。
+## 相关项目
 
-商业授权与合作,请邮件联系:**1251579308@qq.com**
+原创角色表情引擎 **Mood Mates**(云宝 / 亮亮,双许可、可商用)位于本仓库的 [mood-mates/](mood-mates/) 目录:自带独立展示站(`mood-mates/index.html`)、集成指南与角色设计规范,与球形角色项目互不影响。

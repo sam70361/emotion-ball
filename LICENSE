@@ -1,40 +1,63 @@
-Learning & Exchange License (Non-Commercial)
-仅供学习交流许可(禁止商业用途)
+Learning & Research Only License
+仅供学习研究许可（禁止一切商业用途）
 
-Copyright (c) 2026 sam70361
+Copyright (c) 2026 sam70361 (仅就独立编写的代码部分)
+
+适用范围 / Scope: 本许可仅适用于仓库根目录的内容（球形角色及其站点与
+文档）。mood-mates/ 子目录为独立原创角色子项目，受其自带的
+mood-mates/LICENSE（社区许可）与 mood-mates/LICENSE-COMMERCIAL.md
+（商业许可）约束，不适用本许可。
+This license applies only to the contents at the repository root (the
+ball characters, their site and docs). The mood-mates/ subdirectory is an
+independent original-character sub-project governed by its own
+mood-mates/LICENSE (community) and mood-mates/LICENSE-COMMERCIAL.md
+(commercial); this license does not apply to it.
 
 【中文】
 
-1. 本项目(包括但不限于源代码、表情配置数据、插画与文档)仅供个人学习、
-   研究与技术交流使用。
-2. 允许:免费查看、下载、运行、修改本项目,以及在注明出处的前提下,
+0. 重要声明：本项目中的球形角色视觉形象（身体造型、眼部造型、彩带等
+   视觉设计）仅用于个人技术学习与研究，禁止任何商业用途。详见仓库根
+   目录 NOTICE.md。
+
+1. 本项目（包括源代码、表情配置数据与文档）仅供个人学习、研究与技术
+   交流使用。
+
+2. 允许：免费查看、下载、运行、修改本项目，以及在注明出处的前提下，
    在非商业场景中分享本项目或其衍生作品。
-3. 禁止:将本项目或其衍生作品用于任何商业用途,包括但不限于售卖、付费
-   授权、集成到商业产品或服务、用于商业推广等。
-4. 分发本项目或其衍生作品时,须保留本许可声明与版权信息。
-5. 本项目按"现状"提供,不附带任何明示或默示的担保;因使用本项目产生的
-   任何风险与责任由使用者自行承担。
-6. 如需商业授权(集成到商业产品或服务、闭源二次开发、售卖等),请邮件
-   联系版权所有者:1251579308@qq.com;商业许可通用条款见仓库根目录
-   LICENSE-COMMERCIAL.md。
+
+3. 禁止：将本项目或其衍生作品用于任何商业用途，包括但不限于售卖、
+   付费授权、集成到商业产品或服务、用于商业推广等。本项目不提供、
+   也永不提供商业授权。
+
+4. 分发本项目或其衍生作品时，须完整保留本许可声明、版权信息与
+   NOTICE.md。
+
+5. 本项目按"现状"提供，不附带任何明示或默示的担保；因使用本项目产生
+   的任何风险与责任由使用者自行承担。
 
 [English]
 
-1. This project (including but not limited to its source code, emotion
-   configuration data, artwork and documentation) is provided for personal
-   learning, research and technical exchange purposes only.
+0. IMPORTANT NOTICE: The ball-character visual designs in this project
+   (body silhouettes, eye designs, ribbon effects and other visual styling)
+   are provided solely for personal technical study and research. Any
+   commercial use is prohibited. See NOTICE.md in the repository root.
+
+1. This project (including its source code, emotion configuration data and
+   documentation) is provided for personal learning, research and technical
+   exchange purposes only.
+
 2. Permitted: viewing, downloading, running and modifying this project free
    of charge, and sharing this project or derivative works in non-commercial
    scenarios with proper attribution.
+
 3. Prohibited: any commercial use of this project or its derivative works,
    including but not limited to selling, paid licensing, integration into
-   commercial products or services, or use in commercial promotion.
-4. This license notice and the copyright notice must be retained in all
-   copies or substantial portions of the project.
+   commercial products or services, or use in commercial promotion. No
+   commercial license is or will ever be offered for this project.
+
+4. This license notice, the copyright notice and NOTICE.md must be retained
+   in all copies or substantial portions of the project.
+
 5. The project is provided "AS IS", without warranty of any kind, express or
    implied. All risks and liabilities arising from its use are borne by the
    user.
-6. For commercial licensing (integration into commercial products or services,
-   closed-source derivative development, selling, etc.), please contact the
-   copyright holder at 1251579308@qq.com. See LICENSE-COMMERCIAL.md in the
-   repository root for the general commercial license terms.

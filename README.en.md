@@ -5,7 +5,7 @@
 **An expression engine for AI assistants — 32 emotion states · 3 body shapes · pure SVG + vanilla JavaScript · zero dependencies**
 
 [![Live Demo](https://img.shields.io/badge/demo-emotion--balls.vercel.app-8A63F4?logo=vercel&logoColor=white)](https://emotion-balls.vercel.app/)
-[![License](https://img.shields.io/badge/license-dual--license-blue)](LICENSE)
+[![License](https://img.shields.io/badge/license-learning--only-orange)](LICENSE)
 [![Zero Dependencies](https://img.shields.io/badge/dependencies-zero-brightgreen)](#)
 [![Made With](https://img.shields.io/badge/made%20with-vanilla%20JS%20%2B%20SVG-F7DF1E?logo=javascript&logoColor=black)](#)
 
@@ -17,6 +17,16 @@
 
 ---
 
+> **License notice**: The ball-shaped characters (blob / wedge / gem) in the [emotion-ball/](emotion-ball/) directory are for personal technical study and research only. **Any commercial use is prohibited.** See [NOTICE.md](NOTICE.md) and [LICENSE](LICENSE).
+>
+> The [mood-mates/](mood-mates/) directory is an **original-character sub-project** built on the same engine lineage (Nimbo the cloud / Twinkle the star). Those characters are independently created original designs under a **dual license** (free for personal learning + commercial licensing available) and are not subject to the restriction above.
+
+This repository is "one main gallery + two sub-projects":
+
+- **Main gallery (root `index.html`)**: Nimbo × Twinkle × Ball share **one stage** — the same 32-emotion wall, switchable via the cast cards on top, driven by the two engines (MoodMates + EmotionBall) side by side;
+- **[mood-mates/](mood-mates/)**: the original-character project (Nimbo / Twinkle) — multi-character architecture, dual-licensed and commercially licensable, with its own gallery site and docs;
+- **[emotion-ball/](emotion-ball/)**: the ball-character learning project — 32 emotion states, 3 body shapes, with its own gallery site.
+
 Emotion Ball is an expression engine for AI assistants: 32 emotion states rendered entirely in pure SVG and vanilla JavaScript — no frameworks, no image assets. Your AI only needs to output a single `emotionId` and the ball switches to the matching expression, making it a drop-in emotion layer for chatbots, desktop pets and floating assistants.
 
 It is also more than "a ball": three body shapes ship out of the box — blob, wedge and gem — along with themed multi-instance support and a wireframe mode. The whole expression system is pure-data driven: eye-ring pools, animation primitives and keyframe sequences compose freely, so you can build new expressions and behaviors on top of the existing design without touching engine code.
@@ -27,13 +37,13 @@ The repository also ships with a complete gallery site: a wireframe hero opening
 
 | Hero (dark) | Light theme · English |
 | :---: | :---: |
-| ![Hero](assets/screenshots/eb-hero-dark.png) | ![Light theme](assets/screenshots/eb-hero-light-en.png) |
+| ![Hero](emotion-ball/assets/screenshots/eb-hero-dark.png) | ![Light theme](emotion-ball/assets/screenshots/eb-hero-light-en.png) |
 
 | Wall mode | Stage lightbox |
 | :---: | :---: |
-| ![Wall](assets/screenshots/eb-wall-dark.png) | ![Lightbox](assets/screenshots/eb-stage-modal.png) |
+| ![Wall](emotion-ball/assets/screenshots/eb-wall-dark.png) | ![Lightbox](emotion-ball/assets/screenshots/eb-stage-modal.png) |
 
-![Album mode with the thinking halo ribbon](assets/screenshots/eb-album-dark.png)
+![Album mode with the thinking halo ribbon](emotion-ball/assets/screenshots/eb-album-dark.png)
 
 ## Features
 
@@ -47,14 +57,16 @@ The repository also ships with a complete gallery site: a wireframe hero opening
 - **Config-driven and extensible**: every expression is a pure-data composition of eye-ring pool + animation primitives + keyframe sequence; register custom expressions at runtime and import / export the full config — see [Customization](#customization--extensibility)
 - **Robust AI protocol**: `handleAIMessage` accepts an object or a JSON string; unknown IDs, parse failures and missing fields all fall back to idle and emit an `error` event — it never breaks the page
 - **Zero dependencies**: HTML + SVG + vanilla JS with no build step, ready to drop into an Electron floating window
-- **Gallery site**: wall mode (grid + click-to-open lightbox) and album mode (horizontal strip + big stage with paging), settings drawer, auto tour, Chinese / English, dark / light themes, all preferences persisted in localStorage
+- **Gallery site**: wall mode (grid + click-to-open lightbox) and album mode (horizontal strip + big stage with paging), a single top toolbar with group / shape / interval dropdowns plus sketch and autoplay switches, Chinese / English, dark / light themes, all preferences persisted in localStorage
 
 ## Quick start
 
 ```bash
 # any static server works, e.g.:
 python -m http.server 8765
-# open http://localhost:8765/
+# Main gallery (three characters, one stage): http://localhost:8765/
+# Mood Mates site:   http://localhost:8765/mood-mates/
+# Emotion Ball site: http://localhost:8765/emotion-ball/
 ```
 
 Or just open `index.html` directly (a local server is recommended so Google Fonts load).
@@ -63,13 +75,13 @@ Or just open `index.html` directly (a local server is recommended so Google Font
 
 ### Minimal setup
 
-Load four scripts in order (no build, no dependencies) and create an instance. `js/i18n.js` and `js/app.js` belong to the gallery site and are not needed by hosts:
+Load four scripts in order (no build, no dependencies) and create an instance. `i18n.js` and `app.js` belong to the gallery site and are not needed by hosts:
 
 ```html
-<script src="js/rings.js"></script>
-<script src="js/emotions.js"></script>
-<script src="js/ball.js"></script>
-<script src="js/engine.js"></script>
+<script src="emotion-ball/js/rings.js"></script>
+<script src="emotion-ball/js/emotions.js"></script>
+<script src="emotion-ball/js/ball.js"></script>
+<script src="emotion-ball/js/engine.js"></script>
 
 <div id="bot" style="width:200px;height:200px"></div>
 <script>
@@ -185,7 +197,7 @@ A `sequence` defines a one-shot performance played on entering an expression, th
 EmotionBall.config.register({ id: '50', name: 'Custom', group: 'custom', ... });
 
 // export / import the full config as JSON
-// (the gallery's settings drawer offers the same buttons)
+// (the Emotion Ball sub-site's settings drawer offers the same buttons)
 EmotionBall.config.exportConfig();
 EmotionBall.config.importConfig(json);
 ```
@@ -200,32 +212,30 @@ EmotionBall.config.importConfig(json);
 ## Project layout
 
 ```
-emotion-ball/
-├── index.html          # site entry: hero + gallery + settings drawer
-├── css/style.css       # dual-theme variables, dual-mode layouts
-├── js/
-│   ├── rings.js        # geometry data: 25 eye rings + 3 body silhouettes
-│   ├── emotions.js     # 32 emotion configs (pure data, zh + en copy)
-│   ├── i18n.js         # UI string dictionary (zh / en)
-│   ├── ball.js         # render layer: SVG, spherical projection, ribbons, confetti
-│   ├── engine.js       # engine layer: state machine, springs, expression pool, SDK
-│   └── app.js          # interaction layer: the gallery site shell
-├── assets/
-│   ├── img/            # favicon
-│   └── screenshots/    # README preview screenshots
+(repo root)
+├── index.html          # main gallery: Nimbo × Twinkle × Ball on one stage
+├── site/               # main gallery shell: styles / strings / dual-engine interaction layer
+├── mood-mates/         # original-character sub-project: Nimbo & Twinkle (dual-licensed)
+│   ├── index.html      #   standalone Mood Mates gallery
+│   ├── src/            #   engine: geometry / render / features / fx / driver / characters
+│   ├── LICENSE         #   community license (free for personal learning)
+│   ├── LICENSE-COMMERCIAL.md  # commercial license
+│   └── docs/           #   character design spec + originality evidence chain
+├── emotion-ball/       # ball-character learning project (learning only, no commercial use)
+│   ├── index.html      #   standalone Emotion Ball gallery
+│   ├── css/ js/        #   dual-theme styles + engine (rings / emotions / ball / engine)
+│   ├── assets/         #   favicon & README screenshots
+│   └── docs/           #   release copy
 └── .cursor/skills/     # AI collaboration skills: emotion design + integration
 ```
 
 ## License
 
-This project is **dual-licensed**:
+This repository contains two differently licensed parts — please keep them apart:
 
-| | Community license (default) | Commercial license |
-| --- | --- | --- |
-| File | [LICENSE](LICENSE) | [LICENSE-COMMERCIAL.md](LICENSE-COMMERCIAL.md) |
-| Fee | Free | Small one-time fee |
-| Scope | Personal learning, research and technical exchange; non-commercial sharing with attribution | Any commercial use — integration into commercial products or services, closed-source derivative development, paid delivery, etc. |
+- **Ball characters (blob / wedge / gem, [emotion-ball/](emotion-ball/) directory)**: for **personal learning, research and technical exchange only**; any commercial use is prohibited — see [LICENSE](LICENSE) and [NOTICE.md](NOTICE.md). **No commercial license is offered for the ball characters.**
+- **Original characters Nimbo & Twinkle ([mood-mates/](mood-mates/) directory)**: independently created original designs under a **dual license** — free for personal learning and research ([community license](mood-mates/LICENSE)); commercial products, SaaS and client deliverables can obtain a commercial license ([commercial license](mood-mates/LICENSE-COMMERCIAL.md)). See the originality evidence chain in [mood-mates/docs/DESIGN-PROVENANCE.md](mood-mates/docs/DESIGN-PROVENANCE.md).
 
-> Commercial licenses are deliberately affordable: a small one-time fee grants perpetual, fully compliant commercial use — far cheaper than the legal and reputational risk of unlicensed use. There is simply no reason to take that risk. See [docs/LICENSING.md](docs/LICENSING.md) for use cases and how to purchase.
+## Related projects
 
-For commercial licensing and partnerships, email: **1251579308@qq.com**
+**Mood Mates**, the original-character expression engine (Nimbo & Twinkle, dual-licensed and commercially licensable), lives in the [mood-mates/](mood-mates/) directory: it ships its own gallery site (`mood-mates/index.html`), integration guide and character design docs, fully independent from the ball project.

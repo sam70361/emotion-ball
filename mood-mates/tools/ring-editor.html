@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mood Mates · 轮廓环编辑器 Ring Editor</title>
+  <style>
+    :root {
+      --bg: #101014; --card: #1a1a20; --line: rgba(255,255,255,0.09);
+      --text: #f0f0f2; --muted: #9a9aa4; --accent: #8f6dff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg); color: var(--text);
+      font: 14px/1.6 "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      padding: 28px; min-height: 100vh;
+    }
+    h1 { font-size: 20px; margin-bottom: 4px; }
+    .sub { color: var(--muted); font-size: 12px; margin-bottom: 20px; }
+    .tabs { display: flex; gap: 8px; margin-bottom: 18px; }
+    .tab {
+      padding: 7px 18px; border: 1px solid var(--line); border-radius: 10px;
+      background: var(--card); color: var(--muted); cursor: pointer; font: inherit;
+    }
+    .tab.active { color: var(--text); border-color: var(--accent); }
+    .layout { display: flex; gap: 22px; flex-wrap: wrap; align-items: flex-start; }
+    .panel {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: 14px; padding: 18px; width: 320px;
+    }
+    .panel h2 { font-size: 13px; color: var(--muted); margin-bottom: 12px; letter-spacing: 0.06em; }
+    .field { margin-bottom: 12px; }
+    .field label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
+    .field label b { color: var(--text); font-weight: 500; }
+    .field input[type=range] { width: 100%; accent-color: var(--accent); }
+    select {
+      width: 100%; background: var(--bg); color: var(--text);
+      border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; font: inherit;
+    }
+    .preview {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: 14px; padding: 18px; flex: 1; min-width: 360px;
+    }
+    .preview svg { background: #0c0c10; border-radius: 10px; display: block; }
+    .slot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }
+    .slot-cell { text-align: center; }
+    .slot-cell svg { width: 100%; background: #0c0c10; border-radius: 8px; }
+    .slot-cell span { font-size: 11px; color: var(--muted); }
+    .out {
+      margin-top: 14px; width: 100%; height: 130px; resize: vertical;
+      background: #0c0c10; color: #b8e0c8; border: 1px solid var(--line);
+      border-radius: 10px; padding: 10px; font: 12px/1.5 Consolas, monospace;
+    }
+    .btn-row { display: flex; gap: 8px; margin-top: 10px; }
+    button.act {
+      padding: 7px 14px; border: 1px solid var(--line); border-radius: 9px;
+      background: var(--accent); color: #fff; cursor: pointer; font: inherit;
+    }
+    button.act.ghost { background: transparent; color: var(--muted); }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <h1>轮廓环编辑器 · Ring Editor</h1>
+  <p class="sub">参数化生成身体环（96 点）与眼环族（48 点 lens 拓扑）。调好参数后导出描述符,粘进 src/characters/*.js 即可;生成参数请同步记录到 docs/DESIGN-PROVENANCE.md 作为原创证据。</p>
+
+  <div class="tabs">
+    <button type="button" class="tab active" data-tab="body">身体环 Body</button>
+    <button type="button" class="tab" data-tab="eye">眼环族 Eyes</button>
+    <button type="button" class="tab" data-tab="mouth">嘴形族 Mouth</button>
+  </div>
+
+  <!-- 身体环 -->
+  <div class="layout" id="tab-body">
+    <div class="panel">
+      <h2>生成器参数</h2>
+      <div class="field">
+        <label>生成器类型</label>
+        <select id="bodyType"></select>
+      </div>
+      <div id="bodyParams"></div>
+    </div>
+    <div class="preview">
+      <svg id="bodySvg" viewBox="0 0 240 240" width="360" height="360">
+        <path id="bodyPath" fill="#8AD6C8" stroke="#5aa89c" stroke-width="1"/>
+      </svg>
+      <textarea class="out" id="bodyOut" readonly></textarea>
+      <div class="btn-row">
+        <button type="button" class="act" id="bodyCopyDesc">复制描述符</button>
+        <button type="button" class="act ghost" id="bodyCopyRing">复制烘焙 96 点环</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 眼环族 -->
+  <div class="layout hidden" id="tab-eye">
+    <div class="panel">
+      <h2>eyeStyle 参数</h2>
+      <div id="eyeParams"></div>
+    </div>
+    <div class="preview">
+      <div class="slot-grid" id="eyeGrid"></div>
+      <textarea class="out" id="eyeOut" readonly></textarea>
+      <div class="btn-row">
+        <button type="button" class="act" id="eyeCopy">复制 eyeStyle</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 嘴形族 -->
+  <div class="layout hidden" id="tab-mouth">
+    <div class="panel">
+      <h2>嘴形基准</h2>
+      <div class="field">
+        <label><span>嘴宽 w</span><b id="mouthWv">26</b></label>
+        <input type="range" id="mouthW" min="14" max="44" step="1" value="26">
+      </div>
+      <p class="sub" style="margin-top:8px">槽位的高度 / 弯曲是语义常量,角色只调 w。</p>
+    </div>
+    <div class="preview">
+      <div class="slot-grid" id="mouthGrid"></div>
+    </div>
+  </div>
+
+  <script src="../src/core/geometry.js"></script>
+  <script>
+    (function () {
+      'use strict';
+      var GEO = window.MoodMates.geo;
+      var $ = function (id) { return document.getElementById(id); };
+
+      function ringPath(ring) {
+        var s = 'M';
+        for (var i = 0; i < ring.length; i++) {
+          s += (i ? 'L' : '') + ring[i][0].toFixed(2) + ' ' + ring[i][1].toFixed(2);
+        }
+        return s + 'Z';
+      }
+      function copyText(text, btn) {
+        navigator.clipboard.writeText(text).then(function () {
+          var old = btn.textContent;
+          btn.textContent = '已复制 ✓';
+          setTimeout(function () { btn.textContent = old; }, 1200);
+        });
+      }
+      function buildSlider(box, key, def, onInput) {
+        var field = document.createElement('div');
+        field.className = 'field';
+        var label = document.createElement('label');
+        var name = document.createElement('span');
+        name.textContent = key;
+        var val = document.createElement('b');
+        val.textContent = def.v;
+        label.appendChild(name);
+        label.appendChild(val);
+        var input = document.createElement('input');
+        input.type = 'range';
+        input.min = def.min; input.max = def.max; input.step = def.step; input.value = def.v;
+        input.addEventListener('input', function () {
+          val.textContent = input.value;
+          onInput(key, parseFloat(input.value));
+        });
+        field.appendChild(label);
+        field.appendChild(input);
+        box.appendChild(field);
+        return input;
+      }
+
+      /* ---------- Tab 切换 ---------- */
+      document.querySelectorAll('.tab').forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          document.querySelectorAll('.tab').forEach(function (t) { t.classList.toggle('active', t === tab); });
+          ['body', 'eye', 'mouth'].forEach(function (k) {
+            $('tab-' + k).classList.toggle('hidden', tab.dataset.tab !== k);
+          });
+        });
+      });
+
+      /* ---------- 身体环 ---------- */
+      var BODY_SCHEMAS = {
+        drop:   { r: { min: 0.5, max: 1.15, step: 0.01, v: 0.88 }, tip: { min: 0, max: 0.6, step: 0.01, v: 0.38 }, tipW: { min: 0.2, max: 1.2, step: 0.05, v: 0.34 }, squash: { min: 0, max: 0.2, step: 0.01, v: 0.08 }, pear: { min: 0, max: 0.45, step: 0.01, v: 0.28 } },
+        cloud:  { r: { min: 0.5, max: 1.1, step: 0.01, v: 0.94 }, lobes: { min: 3, max: 12, step: 1, v: 7 }, amp: { min: 0, max: 0.2, step: 0.005, v: 0.08 }, flat: { min: 0, max: 0.3, step: 0.01, v: 0.12 } },
+        star:   { r: { min: 0.6, max: 1.15, step: 0.01, v: 1.02 }, points: { min: 3, max: 8, step: 1, v: 5 }, inner: { min: 0.4, max: 0.95, step: 0.01, v: 0.74 }, sharp: { min: 0, max: 1, step: 0.05, v: 0.5 } },
+        flame:  { r: { min: 0.5, max: 1.1, step: 0.01, v: 0.84 }, tip: { min: 0, max: 0.8, step: 0.01, v: 0.52 }, tipW: { min: 0.3, max: 1.1, step: 0.02, v: 0.58 }, lean: { min: -0.8, max: 0.8, step: 0.02, v: 0.32 }, wob: { min: 0, max: 0.1, step: 0.005, v: 0.018 }, pear: { min: 0, max: 0.4, step: 0.01, v: 0.22 }, flick: { min: 0, max: 0.45, step: 0.01, v: 0.18 }, squash: { min: 0, max: 0.15, step: 0.01, v: 0.08 } },
+        heart:  { r: { min: 0.5, max: 1.1, step: 0.01, v: 0.93 }, lobe: { min: 0, max: 0.4, step: 0.01, v: 0.23 }, spread: { min: 0.3, max: 1, step: 0.02, v: 0.6 }, notch: { min: 0, max: 0.35, step: 0.01, v: 0.2 }, point: { min: 0, max: 0.5, step: 0.01, v: 0.26 } },
+        peach:  { r: { min: 0.5, max: 1.1, step: 0.01, v: 0.95 }, dip: { min: 0, max: 0.2, step: 0.005, v: 0.09 }, point: { min: 0, max: 0.2, step: 0.005, v: 0.05 }, squash: { min: 0, max: 0.18, step: 0.01, v: 0.06 } },
+        pig:    { r: { min: 0.5, max: 1.1, step: 0.01, v: 0.86 }, ear: { min: 0, max: 0.4, step: 0.01, v: 0.19 }, spread: { min: 0.3, max: 1, step: 0.02, v: 0.68 }, earW: { min: 0.15, max: 0.6, step: 0.01, v: 0.32 }, squash: { min: 0, max: 0.2, step: 0.01, v: 0.04 }, wide: { min: 0, max: 0.35, step: 0.01, v: 0.2 } },
+        bag:    { w: { min: 0.5, max: 1.15, step: 0.01, v: 0.94 }, h: { min: 0.5, max: 1.15, step: 0.01, v: 0.96 }, n: { min: 2, max: 6, step: 0.1, v: 3.1 }, taper: { min: 0, max: 0.3, step: 0.01, v: 0.13 } },
+        shield: { r: { min: 0.5, max: 1.1, step: 0.01, v: 0.88 }, point: { min: 0, max: 0.5, step: 0.01, v: 0.22 }, top: { min: 0, max: 0.2, step: 0.01, v: 0.07 } }
+      };
+      var bodyState = { type: 'drop' };
+      var bodyRing = null;
+
+      var typeSel = $('bodyType');
+      Object.keys(BODY_SCHEMAS).forEach(function (t) {
+        var opt = document.createElement('option');
+        opt.value = t; opt.textContent = t;
+        typeSel.appendChild(opt);
+      });
+
+      function rebuildBodyParams() {
+        var box = $('bodyParams');
+        box.innerHTML = '';
+        var schema = BODY_SCHEMAS[bodyState.type];
+        var next = { type: bodyState.type };
+        Object.keys(schema).forEach(function (k) {
+          next[k] = schema[k].v = (bodyState[k] != null ? bodyState[k] : schema[k].v);
+          buildSlider(box, k, schema[k], function (key, v) {
+            bodyState[key] = v;
+            renderBody();
+          });
+        });
+        bodyState = next;
+        renderBody();
+      }
+      function renderBody() {
+        bodyRing = GEO.buildBody(bodyState);
+        $('bodyPath').setAttribute('d', ringPath(bodyRing));
+        $('bodyOut').value = 'body: ' + JSON.stringify(bodyState).replace(/"([a-z]+)":/gi, ' $1: ').replace('{', '{').replace(/,/g, ', ');
+      }
+      typeSel.addEventListener('change', function () {
+        bodyState = { type: typeSel.value };
+        rebuildBodyParams();
+      });
+      $('bodyCopyDesc').addEventListener('click', function () { copyText($('bodyOut').value, this); });
+      $('bodyCopyRing').addEventListener('click', function () {
+        copyText(JSON.stringify(bodyRing), this);
+      });
+      rebuildBodyParams();
+
+      /* ---------- 眼环族 ---------- */
+      var EYE_SCHEMA = {
+        dx:   { min: 14, max: 46, step: 1, v: 30 },
+        cy:   { min: 80, max: 120, step: 1, v: 102 },
+        w:    { min: 12, max: 40, step: 0.5, v: 25 },
+        h:    { min: 14, max: 48, step: 0.5, v: 33 },
+        taper:{ min: 0.2, max: 1.2, step: 0.02, v: 0.42 },
+        tilt: { min: -15, max: 15, step: 0.5, v: 0 },
+        bend: { min: -0.3, max: 0.5, step: 0.01, v: 0.02 }
+      };
+      var eyeState = {};
+      Object.keys(EYE_SCHEMA).forEach(function (k) { eyeState[k] = EYE_SCHEMA[k].v; });
+
+      (function buildEyePanel() {
+        var box = $('eyeParams');
+        Object.keys(EYE_SCHEMA).forEach(function (k) {
+          buildSlider(box, k, EYE_SCHEMA[k], function (key, v) {
+            eyeState[key] = v;
+            renderEyes();
+          });
+        });
+      })();
+
+      function renderEyes() {
+        var grid = $('eyeGrid');
+        grid.innerHTML = '';
+        GEO.eyeSlots.forEach(function (slot) {
+          var pair = GEO.buildEyePair(slot, eyeState);
+          var cell = document.createElement('div');
+          cell.className = 'slot-cell';
+          var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+          svg.setAttribute('viewBox', '50 60 140 90');
+          var pL = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          pL.setAttribute('d', ringPath(pair[0]));
+          pL.setAttribute('fill', '#e8e8f0');
+          var pR = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          pR.setAttribute('d', ringPath(pair[1]));
+          pR.setAttribute('fill', '#e8e8f0');
+          svg.appendChild(pL);
+          svg.appendChild(pR);
+          var name = document.createElement('span');
+          name.textContent = slot;
+          cell.appendChild(svg);
+          cell.appendChild(name);
+          grid.appendChild(cell);
+        });
+        $('eyeOut').value = 'eyeStyle: ' + JSON.stringify(eyeState).replace(/"([a-z]+)":/gi, ' $1: ').replace(/,/g, ', ') +
+          '\n// 可追加 highlight: { dx: 4, dy: -7, r: 3 } 高光点';
+      }
+      $('eyeCopy').addEventListener('click', function () { copyText($('eyeOut').value, this); });
+      renderEyes();
+
+      /* ---------- 嘴形族 ---------- */
+      function renderMouths() {
+        var w = parseFloat($('mouthW').value);
+        $('mouthWv').textContent = w;
+        var grid = $('mouthGrid');
+        grid.innerHTML = '';
+        GEO.mouthSlots.forEach(function (slot) {
+          var ring = GEO.buildMouth(slot, { w: w });
+          var cell = document.createElement('div');
+          cell.className = 'slot-cell';
+          var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+          svg.setAttribute('viewBox', '-30 -22 60 44');
+          var p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          p.setAttribute('d', ringPath(ring));
+          p.setAttribute('fill', '#e8e8f0');
+          svg.appendChild(p);
+          var name = document.createElement('span');
+          name.textContent = slot;
+          cell.appendChild(svg);
+          cell.appendChild(name);
+          grid.appendChild(cell);
+        });
+      }
+      $('mouthW').addEventListener('input', renderMouths);
+      renderMouths();
+    })();
+  </script>
+</body>
+</html>
