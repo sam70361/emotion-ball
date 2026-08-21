@@ -66,7 +66,7 @@ window.EB_I18N = (function () {
       toastThemeDark: '已切换到暗黑模式',
       toastThemeLight: '已切换到明亮模式',
 
-      legalNote: '本站球形角色仅供个人技术学习与研究,禁止任何商业用途。'
+      legalNote: '本站球形角色视觉形象仅供个人技术学习与研究、禁止任何商业用途;表情引擎与表情数据可另行获取商业授权(见仓库根目录 LICENSE-COMMERCIAL.md)。'
     },
 
     en: {
@@ -127,7 +127,7 @@ window.EB_I18N = (function () {
       toastThemeDark: 'Dark mode on',
       toastThemeLight: 'Light mode on',
 
-      legalNote: 'The ball characters on this site are for personal technical study and research only. Any commercial use is prohibited.'
+      legalNote: 'The ball-character visual designs on this site are for personal technical study and research only; any commercial use of the visuals is prohibited. The expression engine and emotion data are available for commercial licensing (see LICENSE-COMMERCIAL.md in the repository root).'
     }
   };
 

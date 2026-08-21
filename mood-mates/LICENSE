@@ -16,8 +16,9 @@ Copyright (c) 2026 sam70361
 5. 本项目按"现状"提供，不附带任何明示或默示的担保；因使用本项目产生的
    任何风险与责任由使用者自行承担。
 6. 如需商业授权（集成到商业产品或服务、闭源二次开发、售卖等），请邮件
-   联系版权所有者：1251579308@qq.com；商业许可通用条款见仓库根目录
-   LICENSE-COMMERCIAL.md。
+   联系版权所有者：1251579308@qq.com；商业许可通用条款见本目录下的
+   mood-mates/LICENSE-COMMERCIAL.md（注意与仓库根目录的表情引擎商业
+   许可 LICENSE-COMMERCIAL.md 相区分）。
 
 [English]
 
@@ -39,5 +40,7 @@ Copyright (c) 2026 sam70361
    user.
 6. For commercial licensing (integration into commercial products or services,
    closed-source derivative development, selling, etc.), please contact the
-   copyright holder at 1251579308@qq.com. See LICENSE-COMMERCIAL.md in the
-   repository root for the general commercial license terms.
+   copyright holder at 1251579308@qq.com. See mood-mates/LICENSE-COMMERCIAL.md
+   in this directory for the general commercial license terms (not to be
+   confused with the engine commercial license LICENSE-COMMERCIAL.md at the
+   repository root).

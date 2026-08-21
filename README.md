@@ -17,7 +17,7 @@
 
 ---
 
-> **授权声明**:仓库内 [emotion-ball/](emotion-ball/) 目录的球形角色(blob / wedge / gem)仅供个人技术学习与研究,**禁止任何商业用途**,详见 [NOTICE.md](NOTICE.md) 与 [LICENSE](LICENSE)。
+> **授权声明**:仓库内 [emotion-ball/](emotion-ball/) 目录的球形角色**视觉形象**(blob / wedge / gem 身体造型、配色与特效视觉)仅供个人技术学习与研究,**禁止任何商业用途**且永不提供商业授权;表情引擎源代码与表情配置数据(眼形 / 嘴形参数、动画原语、关键帧序列)为独立编写,**双许可**——非商业免费,商业用途可获取授权。详见 [LICENSE](LICENSE)、[LICENSE-COMMERCIAL.md](LICENSE-COMMERCIAL.md) 与 [NOTICE.md](NOTICE.md)。
 >
 > [mood-mates/](mood-mates/) 目录为同源引擎的**原创角色子项目**(云宝 Nimbo / 亮亮 Twinkle),独立原创设计,采用**双许可**(个人学习免费 + 可获取商业授权),不受上述限制约束。
 
@@ -25,7 +25,7 @@
 
 - **总馆(根目录 `index.html`)**:云宝 × 亮亮 × 球球 三个角色**同台切换展示**——同一面 32 表情陈列墙,点击顶部角色卡即可整馆换角,由两套引擎(MoodMates + EmotionBall)共同驱动;
 - **[mood-mates/](mood-mates/)**:原创角色项目(云宝 / 亮亮),多角色架构、双许可、可商用,自带独立展示站与集成文档;
-- **[emotion-ball/](emotion-ball/)**:球形角色学习项目,32 种状态表情、3 种身体形态,自带独立展示站。
+- **[emotion-ball/](emotion-ball/)**:球形角色项目(形象仅供学习,引擎与表情数据可商业授权),32 种状态表情、3 种身体形态,自带独立展示站。
 
 Emotion Ball 是一套面向 AI 助手的表情引擎:32 种状态表情全部由纯 SVG 与原生 JavaScript 实时驱动,零框架、零图片资源。AI 侧只需输出一个 `emotionId`,即可切换到对应表情,可直接用作聊天机器人、桌面宠物、悬浮助手的情绪表达层。
 
@@ -220,7 +220,7 @@ EmotionBall.config.importConfig(json);
 │   ├── LICENSE         #   社区许可(个人学习免费)
 │   ├── LICENSE-COMMERCIAL.md  # 商业许可
 │   └── docs/           #   角色设计规范 + 原创证据链
-├── emotion-ball/       # 球形角色学习项目(仅供学习,禁止商用)
+├── emotion-ball/       # 球形角色项目(形象仅供学习;引擎与表情数据可商业授权)
 │   ├── index.html      #   Emotion Ball 独立展示站
 │   ├── css/ js/        #   双主题样式 + 引擎(rings / emotions / ball / engine)
 │   ├── assets/         #   站点图标与 README 截图
@@ -230,9 +230,10 @@ EmotionBall.config.importConfig(json);
 
 ## 许可
 
-本仓库包含两套授权不同的内容,请注意区分:
+本仓库包含三类授权不同的内容,请注意区分:
 
-- **球形角色(blob / wedge / gem,[emotion-ball/](emotion-ball/) 目录)**:仅供**个人学习、研究与技术交流**使用,禁止任何商业用途,详见 [LICENSE](LICENSE) 与 [NOTICE.md](NOTICE.md)。**球形角色不提供商业授权。**
+- **表情引擎与表情数据(根目录及 [emotion-ball/](emotion-ball/) 目录)**:源代码(状态机、弹簧插值、球面投影、配置注册中心等)与表情配置数据(眼环 / 眼形 / 嘴形参数、动画原语、关键帧序列)为独立编写与设计,**双许可**——个人学习、研究免费([LICENSE](LICENSE));商业用途可获取商业授权([LICENSE-COMMERCIAL.md](LICENSE-COMMERCIAL.md)),商业集成须搭配自有或另行合法授权的角色形象。
+- **球形角色视觉形象(blob / wedge / gem 身体造型、配色与特效视觉)**:仅供**个人技术学习与研究**,禁止任何商业用途,**不提供、也永不提供商业授权**,详见 [NOTICE.md](NOTICE.md)。
 - **原创角色 云宝 / 亮亮([mood-mates/](mood-mates/) 目录)**:独立原创设计,**双许可**——个人学习、研究免费使用([社区许可](mood-mates/LICENSE));商业产品、SaaS、客户交付等商业场景可获取授权([商业许可](mood-mates/LICENSE-COMMERCIAL.md))。原创证据链见 [mood-mates/docs/DESIGN-PROVENANCE.md](mood-mates/docs/DESIGN-PROVENANCE.md)。
 
 ## 相关项目

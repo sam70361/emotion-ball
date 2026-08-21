@@ -39,7 +39,7 @@ window.MM_I18N = (function () {
       lblTour: '自动播放',
       lblInterval: '间隔',
 
-      footNote: '云宝与亮亮为原创角色,双许可(个人学习免费,商业授权见 mood-mates/LICENSE-COMMERCIAL.md);球球仅供学习研究,禁止任何商业用途。',
+      footNote: '云宝与亮亮为原创角色,双许可(个人学习免费,商业授权见 mood-mates/LICENSE-COMMERCIAL.md);球球视觉形象仅供学习研究、禁止商用,其表情引擎与表情数据可另行商业授权(见 LICENSE-COMMERCIAL.md)。',
       footLinkMates: 'Mood Mates 子站',
       footLinkBall: 'Emotion Ball 子站',
 
@@ -84,7 +84,7 @@ window.MM_I18N = (function () {
       lblTour: 'Autoplay',
       lblInterval: 'Interval',
 
-      footNote: 'Nimbo & Twinkle are original, dual-licensed characters (free for personal learning; commercial licensing via mood-mates/LICENSE-COMMERCIAL.md). Ball is for learning & research only — no commercial use.',
+      footNote: 'Nimbo & Twinkle are original, dual-licensed characters (free for personal learning; commercial licensing via mood-mates/LICENSE-COMMERCIAL.md). The Ball visual design is learning-only (no commercial use); its expression engine and emotion data are commercially licensable via LICENSE-COMMERCIAL.md.',
       footLinkMates: 'Mood Mates site',
       footLinkBall: 'Emotion Ball site',
 

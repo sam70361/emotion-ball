@@ -17,7 +17,7 @@
 
 ---
 
-> **License notice**: The ball-shaped characters (blob / wedge / gem) in the [emotion-ball/](emotion-ball/) directory are for personal technical study and research only. **Any commercial use is prohibited.** See [NOTICE.md](NOTICE.md) and [LICENSE](LICENSE).
+> **License notice**: The **visual designs** of the ball-shaped characters in the [emotion-ball/](emotion-ball/) directory (blob / wedge / gem body silhouettes, color schemes and FX visuals) are for personal technical study and research only — **any commercial use is prohibited** and no commercial license will ever be offered for them. The expression engine source code and emotion configuration data (eye/mouth-shape parameters, animation primitives, keyframe sequences) are independently written and **dual-licensed**: free for non-commercial use, with commercial licensing available. See [LICENSE](LICENSE), [LICENSE-COMMERCIAL.md](LICENSE-COMMERCIAL.md) and [NOTICE.md](NOTICE.md).
 >
 > The [mood-mates/](mood-mates/) directory is an **original-character sub-project** built on the same engine lineage (Nimbo the cloud / Twinkle the star). Those characters are independently created original designs under a **dual license** (free for personal learning + commercial licensing available) and are not subject to the restriction above.
 
@@ -25,7 +25,7 @@ This repository is "one main gallery + two sub-projects":
 
 - **Main gallery (root `index.html`)**: Nimbo × Twinkle × Ball share **one stage** — the same 32-emotion wall, switchable via the cast cards on top, driven by the two engines (MoodMates + EmotionBall) side by side;
 - **[mood-mates/](mood-mates/)**: the original-character project (Nimbo / Twinkle) — multi-character architecture, dual-licensed and commercially licensable, with its own gallery site and docs;
-- **[emotion-ball/](emotion-ball/)**: the ball-character learning project — 32 emotion states, 3 body shapes, with its own gallery site.
+- **[emotion-ball/](emotion-ball/)**: the ball-character project (visuals learning-only; engine & emotion data commercially licensable) — 32 emotion states, 3 body shapes, with its own gallery site.
 
 Emotion Ball is an expression engine for AI assistants: 32 emotion states rendered entirely in pure SVG and vanilla JavaScript — no frameworks, no image assets. Your AI only needs to output a single `emotionId` and the ball switches to the matching expression, making it a drop-in emotion layer for chatbots, desktop pets and floating assistants.
 
@@ -221,7 +221,7 @@ EmotionBall.config.importConfig(json);
 │   ├── LICENSE         #   community license (free for personal learning)
 │   ├── LICENSE-COMMERCIAL.md  # commercial license
 │   └── docs/           #   character design spec + originality evidence chain
-├── emotion-ball/       # ball-character learning project (learning only, no commercial use)
+├── emotion-ball/       # ball-character project (visuals learning-only; engine & data licensable)
 │   ├── index.html      #   standalone Emotion Ball gallery
 │   ├── css/ js/        #   dual-theme styles + engine (rings / emotions / ball / engine)
 │   ├── assets/         #   favicon & README screenshots
@@ -231,9 +231,10 @@ EmotionBall.config.importConfig(json);
 
 ## License
 
-This repository contains two differently licensed parts — please keep them apart:
+This repository contains three differently licensed parts — please keep them apart:
 
-- **Ball characters (blob / wedge / gem, [emotion-ball/](emotion-ball/) directory)**: for **personal learning, research and technical exchange only**; any commercial use is prohibited — see [LICENSE](LICENSE) and [NOTICE.md](NOTICE.md). **No commercial license is offered for the ball characters.**
+- **Expression engine & emotion data (repository root and the [emotion-ball/](emotion-ball/) directory)**: the source code (state machine, spring interpolation, spherical projection, config registry, etc.) and the emotion configuration data (eye-ring / eye-shape / mouth-shape parameters, animation primitives, keyframe sequences) are independently written and designed, under a **dual license** — free for personal learning and research ([LICENSE](LICENSE)); commercial licensing available ([LICENSE-COMMERCIAL.md](LICENSE-COMMERCIAL.md)). Commercial integrations must pair them with your own or otherwise lawfully licensed character designs.
+- **Ball-character visual designs (blob / wedge / gem body silhouettes, color schemes and FX visuals)**: for **personal technical study and research only**; any commercial use is prohibited and **no commercial license is or will ever be offered** — see [NOTICE.md](NOTICE.md).
 - **Original characters Nimbo & Twinkle ([mood-mates/](mood-mates/) directory)**: independently created original designs under a **dual license** — free for personal learning and research ([community license](mood-mates/LICENSE)); commercial products, SaaS and client deliverables can obtain a commercial license ([commercial license](mood-mates/LICENSE-COMMERCIAL.md)). See the originality evidence chain in [mood-mates/docs/DESIGN-PROVENANCE.md](mood-mates/docs/DESIGN-PROVENANCE.md).
 
 ## Related projects
